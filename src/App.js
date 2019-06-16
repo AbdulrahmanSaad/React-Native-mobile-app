@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import firebase from 'firebase';
-import { Header, Button } from './components/common';
+import { Header, Spinner } from './components/common';
+import Button from './components/common/Button';
 import LoginForm from './components/LoginForm';
 
 class App extends Component {
-    constructor() {
-        super();
-        this.setState({Loggedin:false});
-    }
+    state = { LoggedIn: true };
     componentWillMount() {
         firebase.initializeApp(
             {
@@ -30,14 +28,16 @@ class App extends Component {
         });
     }
     renderContent() {
-        if (this.setState.LoggedIn) {
-            return (
-                <Button>
-                    Log Out
-        </Button>
-            );
+        switch (this.state.LoggedIn) {
+            case true:
+                    return <Button>
+                    Logout
+                    </Button>;
+            case false:
+                    return <LoginForm/>;
+            default: 
+            return <Spinner size="large"/>;
         }
-        return <LoginForm />;
     }
     render() {
         return (
